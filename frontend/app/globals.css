@@ -24,3 +24,6 @@ body {
 /* timing: 1775240067853 */
 
 *:focus-visible { outline: 2px solid rgba(249, 115, 22, 0.6); outline-offset: 2px; border-radius: 6px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
