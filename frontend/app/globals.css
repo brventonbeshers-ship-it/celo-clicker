@@ -20,3 +20,5 @@ body {
 .lb-row:hover { background: rgba(249, 115, 22, 0.04); transition: background 0.2s ease; }
 
 ::selection { background: rgba(249, 115, 22, 0.25); color: #fff; }
+
+/* timing: 1775240067853 */
