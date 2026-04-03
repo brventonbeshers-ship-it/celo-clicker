@@ -4,3 +4,5 @@ module.exports = {
     autoprefixer: {},
   },
 };
+
+// postcss: 1775240539821
