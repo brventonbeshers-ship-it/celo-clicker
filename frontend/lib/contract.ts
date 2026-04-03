@@ -38,3 +38,5 @@ export const contractConfig = {
   address: CONTRACT_ADDRESS as `0x${string}`,
   abi: CELO_CLICKER_ABI,
 } as const;
+
+// abi: 1775240399703
