@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000";
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0x1C6CA7f7433026F5bEEA4602b1E75BF78A8f9275";
 export const CELO_RPC = "https://forno.celo.org";
 
 export function shortenAddress(addr: string, head = 6, tail = 4): string {
