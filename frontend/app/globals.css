@@ -32,3 +32,5 @@ body {
 
 @keyframes counterGlow { 0%, 100% { text-shadow: 0 0 10px rgba(249,115,22,0.3); } 50% { text-shadow: 0 0 20px rgba(249,115,22,0.6); } }
 .counter-glow { animation: counterGlow 3s ease-in-out infinite; }
+
+html { scroll-behavior: smooth; }
