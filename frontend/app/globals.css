@@ -16,3 +16,14 @@ body {
          rounded-full shadow-glow transition-all duration-150 select-none
          hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] active:animate-tap;
 }
+
+.lb-row:hover { background: rgba(249, 115, 22, 0.04); transition: background 0.2s ease; }
+
+::selection { background: rgba(249, 115, 22, 0.25); color: #fff; }
+
+/* timing: 1775240067853 */
+
+*:focus-visible { outline: 2px solid rgba(249, 115, 22, 0.6); outline-offset: 2px; border-radius: 6px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
