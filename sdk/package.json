@@ -1,0 +1,28 @@
+{
+  "name": "celo-clicker-sdk",
+  "version": "1.0.0",
+  "description": "SDK for CeloClicker — tap-to-earn clicker game on Celo blockchain",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "celo", "blockchain", "web3", "sdk", "smart-contract", "solidity",
+    "evm", "dapp", "defi", "ethers", "typescript", "react", "minipay",
+    "celo-blockchain", "crypto", "wagmi", "viem"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "files": ["dist"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brventonbeshers-ship-it/celo-clicker"
+  }
+}

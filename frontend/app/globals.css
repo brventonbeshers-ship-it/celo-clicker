@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0d05 50%, #0a0a0a 100%);
+  min-height: 100vh;
+}
+
+.glass-card {
+  @apply bg-dark-card backdrop-blur-md border border-dark-border rounded-2xl;
+}
+
+.btn-tap {
+  @apply bg-gradient-to-br from-primary via-secondary to-accent text-white font-bold
+         rounded-full shadow-glow transition-all duration-150 select-none
+         hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] active:animate-tap;
+}
