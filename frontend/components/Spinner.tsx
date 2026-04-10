@@ -5,3 +5,5 @@ export default function Spinner({ size = 24 }: { size?: number }) {
     </svg>
   );
 }
+
+// spinner: 1775827943797
