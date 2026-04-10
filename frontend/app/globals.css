@@ -156,3 +156,10 @@ html { scroll-behavior: smooth; }
 /* zindex: 1775828089334 */
 
 /* shadow: 1775828093508 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* filter: 1775828132229 */
+
+/* border: 1775828146941 */
