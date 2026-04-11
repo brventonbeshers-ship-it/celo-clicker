@@ -193,3 +193,6 @@ html { scroll-behavior: smooth; }
 /* font: 1775871225569 */
 
 /* border: 1775871230746 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
