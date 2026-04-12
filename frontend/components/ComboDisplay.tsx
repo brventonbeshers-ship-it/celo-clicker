@@ -9,3 +9,5 @@ export default function ComboDisplay({ streak }: { streak: number }) {
 // combo: 1775871032125
 
 // combo: 1775919882731
+
+// combo: 1775966494566
