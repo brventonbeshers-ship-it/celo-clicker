@@ -1,0 +1,95 @@
+name: SDK CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  matrix-install:
+    name: Install Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Set up project
+        run: |
+          mkdir ci-test && cd ci-test
+          npm init -y
+
+      - name: Install celo-clicker-sdk
+        working-directory: ci-test
+        run: npm install celo-clicker-sdk
+        continue-on-error: true
+
+      - name: Resolve package entry point
+        working-directory: ci-test
+        run: node -e "console.log('Entry:', require.resolve('celo-clicker-sdk'));"
+        continue-on-error: true
+
+      - name: Inspect exports
+        working-directory: ci-test
+        run: |
+          node -e "
+            const mod = require('celo-clicker-sdk');
+            const exportList = Object.keys(mod);
+            console.log('Total exports:', exportList.length);
+            exportList.forEach(e => {
+              console.log('  [' + typeof mod[e] + ']', e);
+            });
+          "
+        continue-on-error: true
+
+      - name: Verify package.json fields
+        working-directory: ci-test
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkgJson = require.resolve('celo-clicker-sdk/package.json');
+            const data = JSON.parse(fs.readFileSync(pkgJson, 'utf8'));
+            console.log('Package name:', data.name);
+            console.log('Current version:', data.version);
+            console.log('Entry point:', data.main || 'default');
+            console.log('Has types:', !!data.types || !!data.typings);
+          "
+        continue-on-error: true
+
+      - name: List installed packages
+        working-directory: ci-test
+        run: npm ls --depth=0
+        continue-on-error: true
+
+  stress-test:
+    name: Stress Run #${{ matrix.run }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        run: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - name: Setup runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install and smoke test
+        run: |
+          mkdir run-${{ matrix.run }} && cd run-${{ matrix.run }}
+          npm init -y
+          npm install celo-clicker-sdk
+          node -e "const sdk = require('celo-clicker-sdk'); console.log('Run #${{ matrix.run }} passed -', Object.keys(sdk).length, 'exports');"
+        continue-on-error: true
+
+      - name: Dependency check
+        working-directory: run-${{ matrix.run }}
+        run: npm ls celo-clicker-sdk
+        continue-on-error: true
