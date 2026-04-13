@@ -5,7 +5,8 @@ import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagm
 import { createPublicClient, http } from "viem";
 import { celo } from "viem/chains";
 import { contractConfig } from "@/lib/contract";
-import { formatNumber, shortenAddress } from "@/lib/config";
+import { formatNumber, MINIPAY_FEE_CURRENCY, shortenAddress } from "@/lib/config";
+import { useMiniPay } from "@/hooks/useMiniPay";
 
 const publicClient = createPublicClient({ chain: celo, transport: http() });
 
@@ -17,6 +18,7 @@ interface FloatingNumber {
 
 export default function TapButton() {
   const { address, isConnected } = useAccount();
+  const { isMiniPay } = useMiniPay();
   const [globalCount, setGlobalCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [leaderboard, setLeaderboard] = useState<{ address: string; score: number }[]>([]);
@@ -78,6 +80,7 @@ export default function TapButton() {
     writeContract({
       ...contractConfig,
       functionName: "tap",
+      ...(isMiniPay ? { feeCurrency: MINIPAY_FEE_CURRENCY } : {}),
     });
   }
 

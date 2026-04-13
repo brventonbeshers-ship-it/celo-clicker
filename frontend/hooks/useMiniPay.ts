@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { injected, useAccount, useConnect } from "wagmi";
 
 interface MiniPayState {
@@ -9,9 +9,10 @@ interface MiniPayState {
   connect: () => Promise<void>;
 }
 
+let hasAttemptedMiniPayAutoConnect = false;
+
 export function useMiniPay(): MiniPayState {
   const [isMiniPay, setIsMiniPay] = useState(false);
-  const attemptedAutoConnect = useRef(false);
   const { address, isConnected } = useAccount();
   const { connectAsync } = useConnect();
 
@@ -23,12 +24,12 @@ export function useMiniPay(): MiniPayState {
 
   const connect = useCallback(async () => {
     if (!isMiniPay || isConnected) return;
-    await connectAsync({ connector: injected() });
+    await connectAsync({ connector: injected({ target: "metaMask" }) });
   }, [connectAsync, isConnected, isMiniPay]);
 
   useEffect(() => {
-    if (!isMiniPay || isConnected || attemptedAutoConnect.current) return;
-    attemptedAutoConnect.current = true;
+    if (!isMiniPay || isConnected || hasAttemptedMiniPayAutoConnect) return;
+    hasAttemptedMiniPayAutoConnect = true;
     void connect();
   }, [connect, isConnected, isMiniPay]);
 
