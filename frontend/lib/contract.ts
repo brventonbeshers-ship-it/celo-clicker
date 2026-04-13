@@ -1,4 +1,18 @@
-import { CONTRACT_ADDRESS } from "./config";
+import { CONTRACT_ADDRESS, CELO_RPC } from "./config";
+import {
+  CeloClickerClient,
+  CELO_CLICKER_ABI as SDK_ABI,
+} from "celo-clicker-sdk";
+export type { LeaderboardEntry, UserStats } from "celo-clicker-sdk";
+
+const client = new CeloClickerClient({
+  contractAddress: CONTRACT_ADDRESS,
+  rpcUrl: CELO_RPC,
+});
+
+export const getGlobalCount = () => client.getGlobalCount();
+export const getUserCount = (address: string) => client.getUserCount(address);
+export const getLeaderboard = () => client.getLeaderboard();
 
 export const CELO_CLICKER_ABI = [
   {
