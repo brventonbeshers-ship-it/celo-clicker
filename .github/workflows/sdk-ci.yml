@@ -9,7 +9,6 @@ jobs:
   matrix-install:
     name: Install Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -28,12 +27,10 @@ jobs:
       - name: Install celo-clicker-sdk
         working-directory: ci-test
         run: npm install celo-clicker-sdk
-        continue-on-error: true
 
       - name: Resolve package entry point
         working-directory: ci-test
         run: node -e "console.log('Entry:', require.resolve('celo-clicker-sdk'));"
-        continue-on-error: true
 
       - name: Inspect exports
         working-directory: ci-test
@@ -46,7 +43,6 @@ jobs:
               console.log('  [' + typeof mod[e] + ']', e);
             });
           "
-        continue-on-error: true
 
       - name: Verify package.json fields
         working-directory: ci-test
@@ -60,17 +56,14 @@ jobs:
             console.log('Entry point:', data.main || 'default');
             console.log('Has types:', !!data.types || !!data.typings);
           "
-        continue-on-error: true
 
       - name: List installed packages
         working-directory: ci-test
         run: npm ls --depth=0
-        continue-on-error: true
 
   stress-test:
     name: Stress Run #${{ matrix.run }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -87,9 +80,7 @@ jobs:
           npm init -y
           npm install celo-clicker-sdk
           node -e "const sdk = require('celo-clicker-sdk'); console.log('Run #${{ matrix.run }} passed -', Object.keys(sdk).length, 'exports');"
-        continue-on-error: true
 
       - name: Dependency check
         working-directory: run-${{ matrix.run }}
         run: npm ls celo-clicker-sdk
-        continue-on-error: true
