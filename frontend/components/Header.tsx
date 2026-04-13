@@ -4,7 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useMiniPay } from "@/hooks/useMiniPay";
 
 export default function Header() {
-  const isMiniPay = useMiniPay();
+  const { isMiniPay } = useMiniPay();
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-dark/80 border-b border-dark-border">
