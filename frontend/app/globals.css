@@ -331,3 +331,10 @@ html { scroll-behavior: smooth; }
 /* colors: 1776083749478 */
 
 /* font: 1776083759042 */
+
+/* spacing: 1776115567391 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* filter: 1776115577991 */
