@@ -412,3 +412,10 @@ html { scroll-behavior: smooth; }
 /* border: 1776170574713 */
 
 /* transform: 1776170586534 */
+
+/* opacity: 1776185721022 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* zindex: 1776185733559 */
