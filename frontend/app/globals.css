@@ -491,3 +491,6 @@ html { scroll-behavior: smooth; }
 /* radius: 1776247610999 */
 
 /* border: 1776255952377 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
