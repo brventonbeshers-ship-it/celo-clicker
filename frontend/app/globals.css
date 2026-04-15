@@ -474,3 +474,6 @@ html { scroll-behavior: smooth; }
 /* timing: 1776247477083 */
 
 /* transition: 1776247487642 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
