@@ -451,3 +451,10 @@ html { scroll-behavior: smooth; }
 /* font: 1776214854693 */
 
 /* zindex: 1776214860047 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* transition: 1776214906871 */
+
+/* opacity: 1776214910042 */
