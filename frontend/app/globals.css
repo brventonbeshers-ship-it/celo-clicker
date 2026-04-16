@@ -588,3 +588,12 @@ html { scroll-behavior: smooth; }
 /* opacity: 1776330828609 */
 
 /* font: 1776330832800 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* filter: 1776330885220 */
+
+/* transition: 1776330892622 */
+
+/* spacing: 1776330894825 */
