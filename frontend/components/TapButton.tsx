@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { createPublicClient, http } from "viem";
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
+import { createPublicClient, encodeFunctionData, http } from "viem";
 import { celo } from "viem/chains";
 import { contractConfig } from "@/lib/contract";
 import { formatNumber, MINIPAY_FEE_CURRENCY, shortenAddress } from "@/lib/config";
@@ -25,7 +25,7 @@ export default function TapButton() {
   const [floats, setFloats] = useState<FloatingNumber[]>([]);
   const [txError, setTxError] = useState<string | null>(null);
 
-  const { writeContractAsync, data: hash, isPending } = useWriteContract();
+  const { sendTransactionAsync, data: hash, isPending } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
   useEffect(() => {
@@ -74,13 +74,17 @@ export default function TapButton() {
 
     setTxError(null);
     try {
-      await writeContractAsync({
-        ...contractConfig,
-        account: address,
-        chainId: celo.id,
+      const data = encodeFunctionData({
+        abi: contractConfig.abi,
         functionName: "tap",
+      });
+
+      await sendTransactionAsync({
+        account: address,
+        to: contractConfig.address,
+        data,
         ...(isMiniPay ? { feeCurrency: MINIPAY_FEE_CURRENCY } : {}),
-      } as Parameters<typeof writeContractAsync>[0]);
+      } as Parameters<typeof sendTransactionAsync>[0]);
 
       const id = Date.now();
       const x = 40 + Math.random() * 20;
