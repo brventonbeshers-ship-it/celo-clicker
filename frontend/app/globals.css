@@ -725,3 +725,10 @@ html { scroll-behavior: smooth; }
 /* opacity: 1776459310509 */
 
 /* radius: 1776459322068 */
+
+/* spacing: 1776459360496 */
+
+/* filter: 1776459363674 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
