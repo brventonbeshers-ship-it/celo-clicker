@@ -4,7 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useMiniPay } from "@/hooks/useMiniPay";
 
 export default function Header() {
-  const { isMiniPay } = useMiniPay();
+  const { isMiniPay, isConnected, connect } = useMiniPay();
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-dark/80 border-b border-dark-border">
@@ -12,7 +12,19 @@ export default function Header() {
         <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
           Celo Clicker
         </h1>
-        {!isMiniPay && <ConnectButton />}
+        {isMiniPay ? (
+          !isConnected && (
+            <button
+              type="button"
+              onClick={() => void connect()}
+              className="rounded-md border border-white/20 px-3 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+            >
+              Connect MiniPay
+            </button>
+          )
+        ) : (
+          <ConnectButton />
+        )}
       </div>
     </header>
   );
