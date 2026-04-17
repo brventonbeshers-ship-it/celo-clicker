@@ -23,8 +23,9 @@ export default function TapButton() {
   const [userCount, setUserCount] = useState(0);
   const [leaderboard, setLeaderboard] = useState<{ address: string; score: number }[]>([]);
   const [floats, setFloats] = useState<FloatingNumber[]>([]);
+  const [txError, setTxError] = useState<string | null>(null);
 
-  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { writeContractAsync, data: hash, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
   useEffect(() => {
@@ -68,20 +69,27 @@ export default function TapButton() {
     } catch {}
   }
 
-  function handleTap() {
-    if (!isConnected || isPending || isConfirming) return;
+  async function handleTap() {
+    if (!isConnected || !address || isPending || isConfirming) return;
 
-    const id = Date.now();
-    const x = 40 + Math.random() * 20;
-    const y = 40 + Math.random() * 20;
-    setFloats((prev) => [...prev, { id, x, y }]);
-    setTimeout(() => setFloats((prev) => prev.filter((f) => f.id !== id)), 800);
+    setTxError(null);
+    try {
+      await writeContractAsync({
+        ...contractConfig,
+        account: address,
+        chainId: celo.id,
+        functionName: "tap",
+        ...(isMiniPay ? { feeCurrency: MINIPAY_FEE_CURRENCY } : {}),
+      } as Parameters<typeof writeContractAsync>[0]);
 
-    writeContract({
-      ...contractConfig,
-      functionName: "tap",
-      ...(isMiniPay ? { feeCurrency: MINIPAY_FEE_CURRENCY } : {}),
-    });
+      const id = Date.now();
+      const x = 40 + Math.random() * 20;
+      const y = 40 + Math.random() * 20;
+      setFloats((prev) => [...prev, { id, x, y }]);
+      setTimeout(() => setFloats((prev) => prev.filter((f) => f.id !== id)), 800);
+    } catch (error) {
+      setTxError(error instanceof Error ? error.message.slice(0, 180) : "Transaction rejected or failed.");
+    }
   }
 
   const busy = isPending || isConfirming;
@@ -123,6 +131,7 @@ export default function TapButton() {
       {!isConnected && (
         <p className="text-gray-500 text-sm">Connect wallet to start tapping</p>
       )}
+      {txError && <p className="max-w-md text-center text-sm text-red-400">{txError}</p>}
 
       {/* Leaderboard */}
       {leaderboard.length > 0 && (
