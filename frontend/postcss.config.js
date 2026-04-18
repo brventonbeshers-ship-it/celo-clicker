@@ -72,3 +72,5 @@ module.exports = {
 // postcss: 1776459193610
 
 // postcss: 1776478821975
+
+// postcss: 1776492936899
