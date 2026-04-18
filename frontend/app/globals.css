@@ -750,3 +750,6 @@ html { scroll-behavior: smooth; }
 /* font: 1776478866937 */
 
 /* zindex: 1776478875414 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
