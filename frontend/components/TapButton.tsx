@@ -5,8 +5,9 @@ import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from "wa
 import { createPublicClient, encodeFunctionData, http } from "viem";
 import { celo } from "viem/chains";
 import { contractConfig } from "@/lib/contract";
-import { formatNumber, MINIPAY_FEE_CURRENCY, shortenAddress } from "@/lib/config";
+import { formatNumber, shortenAddress } from "@/lib/config";
 import { useMiniPay } from "@/hooks/useMiniPay";
+import { sendMiniPayTransaction } from "@/lib/minipayTx";
 
 const publicClient = createPublicClient({ chain: celo, transport: http() });
 
@@ -24,9 +25,10 @@ export default function TapButton() {
   const [leaderboard, setLeaderboard] = useState<{ address: string; score: number }[]>([]);
   const [floats, setFloats] = useState<FloatingNumber[]>([]);
   const [txError, setTxError] = useState<string | null>(null);
+  const [miniPayHash, setMiniPayHash] = useState<`0x${string}`>();
 
   const { sendTransactionAsync, data: hash, isPending } = useSendTransaction();
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: miniPayHash ?? hash });
 
   useEffect(() => {
     loadStats();
@@ -73,18 +75,23 @@ export default function TapButton() {
     if (!isConnected || !address || isPending || isConfirming) return;
 
     setTxError(null);
+    setMiniPayHash(undefined);
     try {
       const data = encodeFunctionData({
         abi: contractConfig.abi,
         functionName: "tap",
       });
 
-      await sendTransactionAsync({
-        account: address,
-        to: contractConfig.address,
-        data,
-        ...(isMiniPay ? { feeCurrency: MINIPAY_FEE_CURRENCY } : {}),
-      } as Parameters<typeof sendTransactionAsync>[0]);
+      if (isMiniPay) {
+        const nextHash = await sendMiniPayTransaction(contractConfig.address, data);
+        setMiniPayHash(nextHash);
+      } else {
+        await sendTransactionAsync({
+          account: address,
+          to: contractConfig.address,
+          data,
+        } as Parameters<typeof sendTransactionAsync>[0]);
+      }
 
       const id = Date.now();
       const x = 40 + Math.random() * 20;
