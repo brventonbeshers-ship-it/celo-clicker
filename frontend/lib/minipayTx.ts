@@ -1,6 +1,4 @@
-import { createPublicClient, formatUnits, http, numberToHex, type Hex } from "viem";
-import { celo } from "viem/chains";
-import { CELO_RPC, MINIPAY_FEE_CURRENCY } from "./config";
+import type { Hex } from "viem";
 
 type EthereumProvider = {
   request: (args: { method: string; params?: unknown }) => Promise<unknown>;
@@ -12,42 +10,7 @@ declare global {
   }
 }
 
-const publicClient = createPublicClient({
-  chain: celo,
-  transport: http(CELO_RPC),
-});
-
 const CELO_MAINNET_CHAIN_ID = "0xa4ec";
-
-const balanceOfAbi = [
-  {
-    inputs: [{ name: "account", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-] as const;
-
-async function getMiniPayFeeParams(account: `0x${string}`, to: `0x${string}`, data: Hex) {
-  const [gas, gasPriceHex] = await Promise.all([
-    publicClient.estimateGas({
-      account,
-      to,
-      data,
-      feeCurrency: MINIPAY_FEE_CURRENCY,
-    } as any),
-    publicClient.request({
-      method: "eth_gasPrice",
-      params: [MINIPAY_FEE_CURRENCY],
-    } as any),
-  ]);
-
-  return {
-    gas: (gas * BigInt(120)) / BigInt(100),
-    gasPrice: BigInt(gasPriceHex as string),
-  };
-}
 
 async function getMiniPayAccount(provider: EthereumProvider) {
   const accounts = (await provider.request({ method: "eth_accounts" })) as `0x${string}`[];
@@ -81,28 +44,10 @@ export async function sendMiniPayTransaction(to: `0x${string}`, data: Hex) {
     throw new Error("MiniPay account not found.");
   }
 
-  const feeParams = await getMiniPayFeeParams(account, to, data);
-  const usdBalance = await publicClient.readContract({
-    address: MINIPAY_FEE_CURRENCY,
-    abi: balanceOfAbi,
-    functionName: "balanceOf",
-    args: [account],
-  });
-  const requiredFee = feeParams.gas * feeParams.gasPrice;
-
-  if (usdBalance < requiredFee) {
-    throw new Error(
-      `Not enough USDm for gas. Balance: ${formatUnits(usdBalance, 18)} USDm, required up to: ${formatUnits(requiredFee, 18)} USDm.`,
-    );
-  }
-
   const request = {
     from: account,
     to,
     data,
-    feeCurrency: MINIPAY_FEE_CURRENCY,
-    gas: numberToHex(feeParams.gas),
-    gasPrice: numberToHex(feeParams.gasPrice),
   };
 
   try {
