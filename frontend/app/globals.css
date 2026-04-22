@@ -1120,3 +1120,12 @@ html { scroll-behavior: smooth; }
 /* border: 1776833240834 */
 
 /* radius: 1776833264318 */
+
+/* colors: 1776833306811 */
+
+/* filter: 1776833310063 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* shadow: 1776833325303 */
