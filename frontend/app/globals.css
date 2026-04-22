@@ -1101,3 +1101,10 @@ html { scroll-behavior: smooth; }
 /* font: 1776816469237 */
 
 /* timing: 1776816525164 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
+
+/* filter: 1776816575657 */
+
+/* radius: 1776816585118 */
