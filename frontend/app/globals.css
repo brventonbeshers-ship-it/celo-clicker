@@ -1124,3 +1124,6 @@ html { scroll-behavior: smooth; }
 /* colors: 1776833306811 */
 
 /* filter: 1776833310063 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
