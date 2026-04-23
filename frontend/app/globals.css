@@ -1230,3 +1230,6 @@ html { scroll-behavior: smooth; }
 /* transform: 1776937986060 */
 
 /* zindex: 1776937995535 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
