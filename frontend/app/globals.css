@@ -1407,3 +1407,6 @@ html { scroll-behavior: smooth; }
 /* filter: 1777118238652 */
 
 /* opacity: 1777118283361 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
