@@ -1733,3 +1733,6 @@ html { scroll-behavior: smooth; }
 /* zindex: 1778858872656 */
 
 /* transition: 1778858875905 */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.3); border-radius: 3px; }
